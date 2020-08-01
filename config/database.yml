@@ -13,6 +13,7 @@
   test:
     <<: *default
     database: sport_app_test
+    host: localhost
 
   production:
     <<: *default
