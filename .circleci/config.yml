@@ -1,31 +1,70 @@
-version: 2
+version: 2.1
 jobs:
-  build:
-    # docker-composeがインストール済みの仮想マシンをプル
-    machine:
-      image: circleci/classic:edge
+  rubocop:
+    docker:
+      - image: circleci/ruby:2.5.8-node-browsers-legacy
+        environment:
+          RAILS_ENV: test
+          POSTGRES_HOST: 127.0.0.1
+      - image: circleci/postgres:9.4
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app_test
+    working_directory: ~/repo
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      # Rubocop
       - run:
-          name: database.ymlの再設定
-          command: |
-            rm ./config/database.yml
-            mv ./config/database.ci.yml ./config/database.yml
+          name: Rubocop
+          command: bundle exec rubocop
+
+  rspec:
+    docker:
+      - image: circleci/ruby:2.5.8-node-browsers-legacy
+        environment:
+          RAILS_ENV: test
+          POSTGRES_HOST: 127.0.0.1
+      - image: circleci/postgres:9.4
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app_test
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+      # Rspec
       - run:
-          name: Dockerコンテナのビルド
-          command: docker-compose build
-      - run:
-          name: Dockerコンテナの起動
-          command: docker-compose up -d
-      - run:
-          name: データベースのセットアップ
-          command: docker-compose exec web bundle exec rails db:create db:migrate RAILS_ENV=test
-      - run:
-          name: RSpecテスト実行
-          command: docker-compose exec web bundle exec bin/rspec
-      - run:
-          name: Rubocopテスト実行
-          command: docker-compose exec web bundle exec rubocop
-      - run:
-          name: Dockerコンテナの停止
-          command: docker-compose down
+          name: Rspec
+          command: bundle exec rspec
+
+workflows:
+  version: 2.1
+  rubocop_rspec:
+    jobs:
+      - rubocop
+      - rspec:
+          requires:
+            - rubocop
