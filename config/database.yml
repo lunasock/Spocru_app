@@ -6,17 +6,17 @@ adapter: postgresql
     password: postgres
     pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-  development:
-    <<: *default
-    database: sport_app_development
+ development:
+ <<: *default
+  database: sport_app_development
 
-  test:
-    <<: *default
+ test:
+ <<: *default
     database: sport_app_test
     host: localhost
 
-  production:
-    <<: *default
+ production:
+ <<: *default
     database: sport_app_production
     username: sport_app
     password: <%= ENV['SPORT_APP_DATABASE_PASSWORD'] %>
