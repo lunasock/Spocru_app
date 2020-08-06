@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.5.3
 RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
 RUN mkdir /sport_app
 WORKDIR /sport_app
