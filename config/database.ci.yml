@@ -1,8 +1,0 @@
-test:
-  adapter: postgresql
-  encoding: unicode
-  host: db
-  username: postgres
-  password:
-  pool: 5
-  database: cooklog_v2_test
