@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 
 # bootstrap_gem
 gem 'bootstrap', '~> 4.1.1'
-gem 'bootsnap'
+gem 'bootsnap', require: false
 gem 'jquery-rails'
 
 gem 'autoprefixer-rails', '~> 9.8', '>= 9.8.6.1'
