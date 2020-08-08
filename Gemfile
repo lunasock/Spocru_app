@@ -42,6 +42,7 @@ gem 'jquery-rails'
 
 gem 'autoprefixer-rails', '~> 9.8', '>= 9.8.6.1'
 gem 'kaminari'
+gem 'nokogiri'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
