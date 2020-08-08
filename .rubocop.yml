@@ -2,3 +2,11 @@ inherit_from: .rubocop_todo.yml
 
 Style/AsciiComments:
   Enabled: false
+
+# missing top-level class documentation commentを除外設定
+Documentation:
+  Enabled: false
+
+# "Prefer single-quoted strings when you don't need string interpolation or special symbols."を無効
+Style/StringLiterals:
+  Enabled: false
