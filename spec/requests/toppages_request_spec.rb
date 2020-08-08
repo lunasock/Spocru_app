@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe "Toppages", type: :request do
+RSpec.describe 'Toppages', type: :request do
 
-  describe "GET /index" do
-    it "returns http success" do
-      get "/toppages/index"
+  describe 'GET /index' do
+    it 'returns http success' do
+      get '/toppages/index'
       expect(response).to have_http_status(:success)
     end
   end
