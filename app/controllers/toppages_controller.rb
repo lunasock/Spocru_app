@@ -1,6 +1,6 @@
-#Toppageコントローラーを定義する
+# Toppageコントローラーを定義する
 class ToppagesController < ApplicationController
   def index
-    #toppage
+    # toppage
   end
 end
