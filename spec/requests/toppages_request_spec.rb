@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Toppages', type: :request do
-
   describe 'GET /index' do
     it 'returns http success' do
       get '/toppages/index'
