@@ -36,7 +36,6 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 
 # bootstrap_gem
-gem "sass-rails", "~>5.0"
 gem "bootstrap-sass", "~>3.3.6"
 gem "jquery-rails"
 gem "jquery-ui-rails"
